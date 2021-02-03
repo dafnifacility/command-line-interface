@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="dafni-cli-dafn-facility",
+    name="dafni-cli-dafni-facility",
     version="0.0.1",
     author="DAFNI Facility",
     author_email="support@dafni.ac.uk",
