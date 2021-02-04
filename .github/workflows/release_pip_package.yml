@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - rose/fix-302
 
 jobs:
   release-pip-package:
