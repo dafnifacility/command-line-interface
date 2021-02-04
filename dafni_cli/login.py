@@ -11,4 +11,5 @@ def login(username: str, password: str) -> str:
         },
         allow_redirects=False,
     )
+    login_resp.raise_for_status()
     return f"JWT {login_resp.cookies['__Secure-dafnijwt']}"

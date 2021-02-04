@@ -28,6 +28,7 @@ def get_model_upload_urls(
         headers=auth_header,
         json={"image": True, "definition": True},
     )
+    urls_resp.raise_for_status()
     upload_id = urls_resp.json()["id"]
     urls = urls_resp.json()["urls"]
     return upload_id, urls
@@ -41,19 +42,21 @@ def upload_file_to_minio(jwt: str, url: str, file_path: Path) -> None:
 
 def start_model_ingest(jwt: str, upload_id: str, version_message: str):
     auth_header = {"Authorization": jwt}
-    requests.post(
+    ingest_resp = requests.post(
         f"{MODELS_API_URL}/models/upload/{upload_id}/ingest/",
         headers=auth_header,
         json={"version_message": version_message},
     )
+    ingest_resp.raise_for_status()
 
 
 def start_model_version_ingest(
     jwt: str, model_id: str, upload_id: str, version_message: str
 ):
     auth_header = {"Authorization": jwt}
-    requests.post(
+    ingest_resp = requests.post(
         f"{MODELS_API_URL}/models/{model_id}/upload/{upload_id}/ingest/",
         headers=auth_header,
         json={"version_message": version_message},
     )
+    ingest_resp.raise_for_status()
