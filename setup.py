@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="dafni-cli-dafni-facility",
-    version="0.0.1",
+    version="0.0.2",
     author="DAFNI Facility",
     author_email="support@dafni.ac.uk",
     description="The beginnings of a command line interface for DAFNI. This package is still in development and not ready for use.",
