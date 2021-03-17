@@ -1,5 +1,6 @@
 import requests
 from dafni_cli.urls import LOGIN_API_URL
+from json.decoder import JSONDecodeError
 
 
 def login(username: str, password: str) -> str:
@@ -11,5 +12,10 @@ def login(username: str, password: str) -> str:
         },
         allow_redirects=False,
     )
-    login_resp.raise_for_status()
-    return f"JWT {login_resp.cookies['__Secure-dafnijwt']}"
+    try:
+        return f"JWT {login_resp.cookies['__Secure-dafnijwt']}"
+    except (KeyError, AttributeError, JSONDecodeError) as e:
+        print(f"Login failed with {e}")
+        return None
+    
+
