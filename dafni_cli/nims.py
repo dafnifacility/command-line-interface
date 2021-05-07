@@ -76,7 +76,7 @@ def ingest_model(
     jwt: str, upload_id: str, version_message: str, model_id: Optional[str] = None
 ) -> None:
     endpoint = f"{MODELS_API_URL}/models/upload/{upload_id}/ingest/"
-    if model_id is not None:
+    if model_id:
         endpoint = f"{MODELS_API_URL}/models/{model_id}/upload/{upload_id}/ingest/"
     auth_header = {"Authorization": jwt}
     response = requests.post(
