@@ -5,17 +5,18 @@ from json.decoder import JSONDecodeError
 
 def login(username: str, password: str) -> str:
     login_resp = requests.post(
-        f"{LOGIN_API_URL}/login/",
-        json={"username": username, "password": password},
-        headers={
-            "Content-Type": "application/json",
+        LOGIN_API_URL,
+        {
+            "username": username,
+            "password": password,
+            "client_id": "dafni-main",
+            "grant_type": "password",
+            "scope": "openid",
         },
-        allow_redirects=False,
     )
     try:
-        return f"JWT {login_resp.cookies['__Secure-dafnijwt']}"
+        access_token = login_resp.json()["access_token"]
+        return f"Bearer {access_token}"
     except (KeyError, AttributeError, JSONDecodeError) as e:
         print(f"Login failed with {e}")
         return None
-    
-
