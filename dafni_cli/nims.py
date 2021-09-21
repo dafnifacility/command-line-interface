@@ -36,7 +36,7 @@ def validate_model_definition(
     validation_headers = {"Authorization": jwt, "Content-Type": "application/yaml"}
     with model_definition.open("rb") as md:
         validation_resp = requests.put(
-            f"{MODELS_API_URL}/models/definition/validate/",
+            f"{MODELS_API_URL}/models/validate/",
             data=md,
             headers=validation_headers,
         )
