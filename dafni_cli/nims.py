@@ -4,7 +4,8 @@ from typing import Optional
 
 import requests
 from requests import Response
-from urls import MODELS_API_URL
+
+from dafni_cli.urls import MODELS_API_URL
 
 
 class NIMSError(Exception):
