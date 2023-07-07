@@ -1,9 +1,10 @@
-import requests
-from pathlib import Path
-from dafni_cli.urls import MODELS_API_URL
-from requests import Response
-from typing import Optional
 from json.decoder import JSONDecodeError
+from pathlib import Path
+from typing import Optional
+
+import requests
+from requests import Response
+from urls import MODELS_API_URL
 
 
 class NIMSError(Exception):
@@ -64,10 +65,19 @@ def get_model_upload_urls(
     return upload_id, urls
 
 
+def replace_minio_url(presigned_url: str) -> str:
+    proxy_url = "https://fwd.secure.dafni.rl.ac.uk/nidminio/"
+    minio_url = "https://minio.secure.dafni.rl.ac.uk/"
+    stripped_url = presigned_url.removeprefix(minio_url)
+    return f"{proxy_url}{stripped_url}"
+
+
 def upload_file_to_minio(jwt: str, url: str, file_path: Path) -> None:
     upload_headers = {"Authorization": jwt, "Content-Type": "multipart/form-data"}
     with file_path.open("rb") as file_data:
-        response = requests.put(url, headers=upload_headers, data=file_data)
+        response = requests.put(
+            replace_minio_url(url), headers=upload_headers, data=file_data
+        )
         if response.status_code != 200:
             raise NIMSError("Uploading to Minio", response)
 
